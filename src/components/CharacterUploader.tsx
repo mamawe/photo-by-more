@@ -143,7 +143,7 @@ export const CharacterUploader: React.FC<CharacterUploaderProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+    <div className="surface rounded-2xl p-5 sm:p-6">
       <div className="flex items-center justify-between mb-4">
         <div>
           <div className="flex items-center gap-2">

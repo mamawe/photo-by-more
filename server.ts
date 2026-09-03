@@ -9,7 +9,11 @@ dotenv.config();
 
 const app = express();
 const PORT = 3000;
-const isHostedPreview = Boolean(process.env.VERCEL || process.env.VERCEL_URL);
+// The v0 preview is served over HTTPS, so the Vite client must use the secure
+// WebSocket endpoint. Keep local development configurable with HMR_PROTOCOL.
+const isHostedPreview = Boolean(
+  process.env.VERCEL || process.env.VERCEL_URL || process.env.V0_PREVIEW || process.env.HMR_PROTOCOL === "wss"
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -510,11 +514,17 @@ async function startServer() {
         middlewareMode: true,
         // Use the public secure WebSocket endpoint only behind the hosted preview proxy.
         // Local development connects directly to the HTTP server on PORT.
-        hmr: {
+    // v0 serves the preview through an HTTPS proxy while the app server is
+    // plain HTTP. Disable Vite's client HMR socket by default to prevent the
+    // browser from attempting an insecure ws:// connection. Local developers
+    // can opt in with ENABLE_HMR=true.
+    hmr: process.env.ENABLE_HMR === "true"
+      ? {
           server: httpServer,
           protocol: isHostedPreview ? "wss" : "ws",
           clientPort: isHostedPreview ? 443 : PORT,
-        },
+        }
+      : false,
       },
       appType: "spa",
     });
