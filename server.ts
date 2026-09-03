@@ -512,19 +512,15 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        // Use the public secure WebSocket endpoint only behind the hosted preview proxy.
-        // Local development connects directly to the HTTP server on PORT.
-    // v0 serves the preview through an HTTPS proxy while the app server is
-    // plain HTTP. Disable Vite's client HMR socket by default to prevent the
-    // browser from attempting an insecure ws:// connection. Local developers
-    // can opt in with ENABLE_HMR=true.
-    hmr: process.env.ENABLE_HMR === "true"
-      ? {
-          server: httpServer,
-          protocol: isHostedPreview ? "wss" : "ws",
-          clientPort: isHostedPreview ? 443 : PORT,
-        }
-      : false,
+        // v0 serves the preview through an HTTPS proxy while this app server
+        // is plain HTTP. The proxy does not forward Vite's HMR socket, so
+        // injecting @vite/client in hosted previews would cause repeated
+        // "WebSocket closed without opened" errors. Keep HMR available for
+        // direct local development only.
+        // HMR is intentionally disabled for the preview server. Vite's
+        // browser client otherwise tries to open a socket that the v0 HTTPS
+        // proxy does not expose.
+        hmr: false,
       },
       appType: "spa",
     });
