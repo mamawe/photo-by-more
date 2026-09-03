@@ -9,6 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = 3000;
+const isHostedPreview = Boolean(process.env.VERCEL || process.env.VERCEL_URL);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -507,7 +508,13 @@ async function startServer() {
     const vite = await createViteServer({
       server: {
         middlewareMode: true,
-        hmr: { server: httpServer },
+        // Use the public secure WebSocket endpoint only behind the hosted preview proxy.
+        // Local development connects directly to the HTTP server on PORT.
+        hmr: {
+          server: httpServer,
+          protocol: isHostedPreview ? "wss" : "ws",
+          clientPort: isHostedPreview ? 443 : PORT,
+        },
       },
       appType: "spa",
     });
