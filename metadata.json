@@ -1,0 +1,6 @@
+{
+  "name": "2D AI Scene Composer",
+  "description": "纯 2D 多人物 AI 场景编排器：分离人物身份、位置、姿态与前后关系，通过 Scene Blueprint 与一致性检测实现确定性场景合成",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
