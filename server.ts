@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import { createServer as createHttpServer } from "http";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 
@@ -8,6 +9,11 @@ dotenv.config();
 
 const app = express();
 const PORT = 3000;
+// The v0 preview is served over HTTPS, so the Vite client must use the secure
+// WebSocket endpoint. Keep local development configurable with HMR_PROTOCOL.
+const isHostedPreview = Boolean(
+  process.env.VERCEL || process.env.VERCEL_URL || process.env.V0_PREVIEW || process.env.HMR_PROTOCOL === "wss"
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: true, limit: "50mb" }));
@@ -500,9 +506,22 @@ Ensure seamless inpainting blending, consistent lighting, shadows, and contact w
 
 // Vite middleware & Static serving
 async function startServer() {
+  const httpServer = createHttpServer(app);
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
-      server: { middlewareMode: true },
+      server: {
+        middlewareMode: true,
+        // v0 serves the preview through an HTTPS proxy while this app server
+        // is plain HTTP. The proxy does not forward Vite's HMR socket, so
+        // injecting @vite/client in hosted previews would cause repeated
+        // "WebSocket closed without opened" errors. Keep HMR available for
+        // direct local development only.
+        // HMR is intentionally disabled for the preview server. Vite's
+        // browser client otherwise tries to open a socket that the v0 HTTPS
+        // proxy does not expose.
+        hmr: false,
+      },
       appType: "spa",
     });
     app.use(vite.middlewares);
@@ -514,7 +533,7 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  httpServer.listen(PORT, "0.0.0.0", () => {
     console.log(`2D AI Scene Composer server running on http://localhost:${PORT}`);
   });
 }

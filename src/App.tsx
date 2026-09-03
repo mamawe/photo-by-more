@@ -388,7 +388,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100/60 text-slate-900 flex flex-col font-sans selection:bg-indigo-500 selection:text-white pb-16">
+    <div className="min-h-screen bg-[#f5f7fb] text-slate-900 flex flex-col font-sans pb-16">
       {/* Header */}
       <Header
         onLoadPreset={handleLoadPreset}

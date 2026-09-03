@@ -53,7 +53,7 @@ export const SceneConfigPanel: React.FC<SceneConfigPanelProps> = ({
   ];
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs">
+    <div className="surface rounded-2xl p-5 sm:p-6">
       <div className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">

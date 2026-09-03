@@ -1,1 +1,36 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  --color-ink: #101828;
+  --color-muted: #667085;
+  --color-line: #e4e7ec;
+  --color-brand: #625df5;
+}
+
+:root {
+  font-family: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  color: #101828;
+  background: #f5f7fb;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; background: #f5f7fb; }
+button, input, textarea, select { font: inherit; }
+button { -webkit-tap-highlight-color: transparent; }
+
+::selection { background: #625df5; color: white; }
+
+.surface {
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(228,231,236,.95);
+  box-shadow: 0 10px 30px rgba(16,24,40,.045), 0 2px 6px rgba(16,24,40,.03);
+}
+
+.section-kicker { letter-spacing: .12em; font-size: 10px; text-transform: uppercase; font-weight: 800; color: #667085; }
+
+@media (max-width: 640px) {
+  .section-kicker { letter-spacing: .08em; }
+}

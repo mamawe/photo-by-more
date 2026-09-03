@@ -103,7 +103,7 @@ export const SceneBoard2D: React.FC<SceneBoard2DProps> = ({
   const sortedCharacters = [...blueprint.characters].sort((a, b) => a.depth - b.depth);
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-5 shadow-xs flex flex-col">
+    <div className="surface rounded-2xl p-5 sm:p-6 flex flex-col">
       {/* Board Header & Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div>
