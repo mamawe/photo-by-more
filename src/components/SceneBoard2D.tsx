@@ -168,8 +168,9 @@ export const SceneBoard2D: React.FC<SceneBoard2DProps> = ({
             blueprint.aspectRatio
           )} select-none overflow-hidden`}
           style={{
-            background:
-              'linear-gradient(180deg, #1e293b 0%, #0f172a 70%, #020617 100%)',
+            backgroundImage: `linear-gradient(180deg, rgba(23,33,43,.08), rgba(23,33,43,.28)), url(${blueprint.backgroundImage || '/images/hero-paris-picnic.png'})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
           }}
         >
           {/* Rule of Thirds / Composition grid */}

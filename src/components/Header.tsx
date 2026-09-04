@@ -43,9 +43,9 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Action Controls & Presets */}
         <div className="flex items-center flex-wrap gap-2 sm:gap-3">
           {/* Presets quick load */}
-          <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-lg border border-slate-200">
-            <span className="text-xs text-slate-500 font-medium px-2 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" /> 快速预设:
+          <div className="preset-strip flex items-center gap-2 rounded-2xl border border-white/20 bg-white/10 p-1.5 backdrop-blur-md max-w-full overflow-x-auto">
+            <span className="shrink-0 px-2 text-[10px] font-bold uppercase tracking-[.14em] text-[#f7dfaa] flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5" /> 场景
             </span>
             {ALL_PRESETS.map((preset, idx) => (
               <button
@@ -53,10 +53,12 @@ export const Header: React.FC<HeaderProps> = ({
                 type="button"
                 id={`preset-btn-${idx}`}
                 onClick={() => onLoadPreset(preset)}
-                className="px-2.5 py-1 text-xs font-medium rounded-md bg-white text-slate-700 hover:bg-slate-50 hover:text-indigo-600 shadow-xs border border-slate-200/80 transition-all"
+                className="group relative h-12 w-24 shrink-0 overflow-hidden rounded-xl border border-white/20 text-left shadow-lg transition-all hover:-translate-y-0.5 hover:border-[#f7dfaa]"
                 title={preset.description}
               >
-                {preset.name.split(' ')[0]}
+                <img src={preset.blueprint.backgroundImage || '/images/hero-paris-picnic.png'} alt="" className="absolute inset-0 size-full object-cover transition-transform group-hover:scale-110" />
+                <span className="absolute inset-0 bg-gradient-to-t from-[#17212b] via-[#17212b]/20 to-transparent" />
+                <span className="absolute bottom-1 left-2 right-1 truncate text-[10px] font-bold text-white">{preset.name.split(' ')[0]}</span>
               </button>
             ))}
           </div>

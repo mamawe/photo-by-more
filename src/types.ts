@@ -64,6 +64,8 @@ export interface SceneBlueprint {
   version: string;
   title: string;
   aspectRatio: AspectRatioType;
+  /** Local visual reference used by the 2D board and client composite renderer. */
+  backgroundImage?: string;
   background: string;
   lighting: string;
   camera: string;

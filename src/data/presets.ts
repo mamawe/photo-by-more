@@ -154,6 +154,7 @@ export const PRESET_FAMILY_PARIS: PresetPackage = {
     version: "1.0",
     title: "巴黎铁塔家庭旅行纪念",
     aspectRatio: "16:9",
+    backgroundImage: "/images/preset-paris-street.png",
     background: "巴黎埃菲尔铁塔远景，战神广场下午黄金时刻草坪，法式秋季梧桐树叶落，阳光柔和斑驳",
     lighting: "黄金时刻夕阳侧逆光，温暖柔和发丝轮廓光",
     camera: "35mm 徕卡胶片镜头，视平线真实纪实构图，中景半全身，背景微虚化",
@@ -256,6 +257,7 @@ export const PRESET_FRIENDS_BEACH: PresetPackage = {
     version: "1.0",
     title: "海滨黄昏闺蜜野餐",
     aspectRatio: "16:9",
+    backgroundImage: "/images/preset-beach-picnic.png",
     background: "加州沿海沙滩，傍晚粉紫晚霞，白色野餐垫，竹编野餐篮与草莓红酒杯",
     lighting: "海边日落晚霞暖调，背光漫反射柔光",
     camera: "50mm 大光圈人像镜头，低角度平视拍摄",
@@ -287,4 +289,41 @@ export const PRESET_FRIENDS_BEACH: PresetPackage = {
   },
 };
 
-export const ALL_PRESETS = [PRESET_FAMILY_PARIS, PRESET_FRIENDS_BEACH];
+// Visual reference thumbnails keep preset selection connected to the actual scene board.
+const withSceneReference = (preset: PresetPackage, backgroundImage: string, title: string, background: string): PresetPackage => ({
+  ...preset,
+  name: title,
+  description: `${title} · ${preset.description}`,
+  blueprint: { ...preset.blueprint, title, backgroundImage, background },
+});
+
+export const PRESET_PARIS_STREET = withSceneReference(
+  PRESET_FAMILY_PARIS,
+  '/images/preset-paris-street.png',
+  '巴黎街角漫游',
+  '巴黎左岸街角咖啡馆与塞纳河晨光，奶油色建筑和自行车街景'
+);
+export const PRESET_BEACH_PICNIC = withSceneReference(
+  PRESET_FRIENDS_BEACH,
+  '/images/preset-beach-picnic.png',
+  '海边野餐闺蜜组',
+  '地中海海边野餐，粉紫晚霞、亚麻野餐垫、藤编篮与远处海浪'
+);
+export const PRESET_KYOTO_AUTUMN = withSceneReference(PRESET_FAMILY_PARIS, '/images/preset-kyoto-autumn.png', '京都秋日漫步', '京都古寺红枫小径，秋日晨光与安静石板路');
+export const PRESET_ALPS_TRIP = withSceneReference(PRESET_FRIENDS_BEACH, '/images/preset-alps-trip.png', '阿尔卑斯湖畔', '瑞士雪山湖畔木屋，野花、清澈湖面与柔和日光');
+export const PRESET_ISLAND_VACATION = withSceneReference(PRESET_FRIENDS_BEACH, '/images/preset-island-vacation.png', '海岛度假日', '热带海岛蓝绿色海湾，棕榈树影与条纹沙滩椅');
+export const PRESET_TOKYO_NIGHT = withSceneReference(PRESET_FRIENDS_BEACH, '/images/preset-tokyo-night.png', '东京霓虹夜行', '雨后东京霓虹小巷，湿润路面反射彩色灯光');
+export const PRESET_PRAIRIE_FAMILY = withSceneReference(PRESET_FAMILY_PARIS, '/images/preset-prairie-family.png', '薰衣草草原家庭', '日落薰衣草草原与远山，金色逆光和户外野餐桌');
+export const PRESET_STUDIO_PORTRAIT = withSceneReference(PRESET_FAMILY_PARIS, '/images/preset-studio-portrait.png', '复古暖调影棚', '陶土色复古影棚、扶手椅、干花与窗边柔光');
+
+export const ALL_PRESETS = [
+  PRESET_FAMILY_PARIS,
+  PRESET_BEACH_PICNIC,
+  PRESET_PARIS_STREET,
+  PRESET_KYOTO_AUTUMN,
+  PRESET_ALPS_TRIP,
+  PRESET_ISLAND_VACATION,
+  PRESET_TOKYO_NIGHT,
+  PRESET_PRAIRIE_FAMILY,
+  PRESET_STUDIO_PORTRAIT,
+];

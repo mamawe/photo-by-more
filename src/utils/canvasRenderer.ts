@@ -112,7 +112,30 @@ export async function renderSceneComposite(
   canvas.width = width;
   canvas.height = height;
 
-  // Draw background atmosphere
+  // Draw the selected preset's photographic reference first, then add a
+  // readable color wash so composited portraits remain visible.
+  if (blueprint.backgroundImage) {
+    try {
+      const sceneImage = await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.crossOrigin = 'anonymous';
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = blueprint.backgroundImage!;
+      });
+      const sourceRatio = sceneImage.naturalWidth / sceneImage.naturalHeight;
+      const targetRatio = width / height;
+      const drawW = sourceRatio > targetRatio ? sceneImage.naturalHeight * targetRatio : sceneImage.naturalWidth;
+      const drawH = sourceRatio > targetRatio ? sceneImage.naturalHeight : sceneImage.naturalWidth / targetRatio;
+      ctx.drawImage(sceneImage, (sceneImage.naturalWidth - drawW) / 2, (sceneImage.naturalHeight - drawH) / 2, drawW, drawH, 0, 0, width, height);
+      ctx.fillStyle = 'rgba(18, 31, 39, .16)';
+      ctx.fillRect(0, 0, width, height);
+    } catch (error) {
+      console.warn('[v0] Scene reference image unavailable, using gradient fallback:', error);
+    }
+  }
+
+  // Draw background atmosphere fallback
   const bgGrad = ctx.createLinearGradient(0, 0, 0, height);
   if (blueprint.background.includes('巴黎') || blueprint.background.includes('铁塔')) {
     bgGrad.addColorStop(0, '#60A5FA'); // Afternoon sky
@@ -130,8 +153,10 @@ export async function renderSceneComposite(
     bgGrad.addColorStop(1, '#0F172A');
   }
 
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, width, height);
+  if (!blueprint.backgroundImage) {
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, width, height);
+  }
 
   // Draw environmental silhouettes if landmark mentioned
   if (blueprint.background.includes('铁塔')) {
