@@ -398,7 +398,7 @@ export default function App() {
 
       {/* Main Workspace Layout */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
-        <section className="surface rounded-[1.75rem] p-5 sm:p-7 overflow-hidden relative">
+        <section className="surface photo-section rounded-[1.75rem] p-5 sm:p-7 overflow-hidden relative">
           <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#d9684a]/10 blur-3xl" aria-hidden="true" />
           <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
             <div>

@@ -530,8 +530,8 @@ async function startServer() {
   // attempting a socket connection in the hosted preview.
   // Register this before Vite's middleware so the hosted preview never receives
   // the real client, which attempts to open a WebSocket the proxy does not expose.
-  app.get("/@vite/client", (_req, res) => {
-    res.type("application/javascript; charset=utf-8").send(`
+  app.use("/@vite/client", (_req, res) => {
+    res.status(200).set("Cache-Control", "no-store").type("application/javascript; charset=utf-8").send(`
       const noop = () => {};
       const styles = new Map();
       const hot = () => ({ accept: noop, dispose: noop, prune: noop, on: noop, send: noop, invalidate: noop });
