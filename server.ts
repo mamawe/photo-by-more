@@ -524,7 +524,14 @@ async function startServer() {
       },
       appType: "spa",
     });
-    app.use(vite.middlewares);
+    // This preview is fronted by an HTTPS proxy that does not expose the
+  // dev-server WebSocket. Vite may still serve @vite/client from a cached
+  // transform, so short-circuit it explicitly to prevent the client from
+  // attempting a socket connection in the hosted preview.
+  app.get("/@vite/client", (_req, res) => {
+    res.type("application/javascript").send("export {};\n");
+  });
+  app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
