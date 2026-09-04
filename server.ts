@@ -529,7 +529,29 @@ async function startServer() {
   // transform, so short-circuit it explicitly to prevent the client from
   // attempting a socket connection in the hosted preview.
   app.get("/@vite/client", (_req, res) => {
-    res.type("application/javascript").send("export {};\n");
+    // Vite injects this import into transformed CSS/modules even with HMR off.
+    // Keep the hosted preview socket-free while preserving the small API that
+    // transformed modules call during evaluation.
+    res.type("application/javascript").send(`
+      const noop = () => {};
+      const styles = new Map();
+      export const createHotContext = () => ({ accept: noop, dispose: noop, prune: noop, on: noop, send: noop });
+      export const updateStyle = (id, content) => {
+        let style = styles.get(id);
+        if (!style) {
+          style = document.createElement('style');
+          style.setAttribute('data-vite-dev-id', id);
+          document.head.appendChild(style);
+          styles.set(id, style);
+        }
+        style.textContent = content;
+      };
+      export const removeStyle = (id) => {
+        const style = styles.get(id);
+        if (style) { style.remove(); styles.delete(id); }
+      };
+      export const injectQuery = (url) => url;
+    `);
   });
   app.use(vite.middlewares);
   } else {
