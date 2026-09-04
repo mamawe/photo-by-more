@@ -528,19 +528,19 @@ async function startServer() {
   // dev-server WebSocket. Vite may still serve @vite/client from a cached
   // transform, so short-circuit it explicitly to prevent the client from
   // attempting a socket connection in the hosted preview.
+  // Register this before Vite's middleware so the hosted preview never receives
+  // the real client, which attempts to open a WebSocket the proxy does not expose.
   app.get("/@vite/client", (_req, res) => {
-    // Vite injects this import into transformed CSS/modules even with HMR off.
-    // Keep the hosted preview socket-free while preserving the small API that
-    // transformed modules call during evaluation.
-    res.type("application/javascript").send(`
+    res.type("application/javascript; charset=utf-8").send(`
       const noop = () => {};
       const styles = new Map();
-      export const createHotContext = () => ({ accept: noop, dispose: noop, prune: noop, on: noop, send: noop });
+      const hot = () => ({ accept: noop, dispose: noop, prune: noop, on: noop, send: noop, invalidate: noop });
+      export const createHotContext = hot;
       export const updateStyle = (id, content) => {
         let style = styles.get(id);
         if (!style) {
           style = document.createElement('style');
-          style.setAttribute('data-vite-dev-id', id);
+          style.dataset.viteDevId = id;
           document.head.appendChild(style);
           styles.set(id, style);
         }
@@ -551,6 +551,9 @@ async function startServer() {
         if (style) { style.remove(); styles.delete(id); }
       };
       export const injectQuery = (url) => url;
+      export const defineImportMetaEnv = () => undefined;
+      export const defineImportMetaHot = () => undefined;
+      export default {};
     `);
   });
   app.use(vite.middlewares);

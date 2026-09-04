@@ -2,8 +2,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "DM Sans", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: Inter, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  --font-display: Georgia, "Songti SC", "STSong", serif;
   --color-ink: #17212b;
   --color-muted: #68757d;
   --color-line: #ded8cc;
@@ -11,7 +11,7 @@
 }
 
 :root {
-  font-family: "DM Sans", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
   color: #17212b;
   background: #e9e1d3;
   font-synthesis: none;
