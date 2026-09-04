@@ -18,7 +18,7 @@ export const Header: React.FC<HeaderProps> = ({
   characterCount,
 }) => {
   return (
-    <header className="border-b border-slate-200/80 bg-white/85 backdrop-blur-xl sticky top-0 z-40 shadow-[0_1px_0_rgba(16,24,40,.03)]">
+    <header className="border-b border-white/20 bg-[#17212b]/90 text-white backdrop-blur-xl sticky top-0 z-40 shadow-[0_8px_30px_rgba(23,33,43,.18)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-4">
         {/* Logo & Title */}
         <div className="flex items-center gap-3">
@@ -27,14 +27,14 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+              <h1 className="text-base sm:text-lg font-bold text-[#fffaf4] tracking-tight">
                 2D AI Scene Composer
               </h1>
               <span className="px-2 py-0.5 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/60">
                 多人物 AI 场景编排器
               </span>
             </div>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-xs text-white/60 font-medium">
               让用户先决定“谁在哪里”，再让 AI 决定“画成什么样”
             </p>
           </div>

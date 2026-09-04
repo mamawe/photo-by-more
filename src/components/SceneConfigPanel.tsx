@@ -189,7 +189,7 @@ export const SceneConfigPanel: React.FC<SceneConfigPanelProps> = ({
             id="generate-final-btn"
             disabled={isGenerating || !hasCharacters}
             onClick={() => onGenerate(false)}
-            className="px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="photo-button px-4 py-2.5 rounded-xl text-xs font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
             {isGenerating ? (
               <>

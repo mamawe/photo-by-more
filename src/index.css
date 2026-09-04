@@ -1,36 +1,73 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
-  --color-ink: #101828;
-  --color-muted: #667085;
-  --color-line: #e4e7ec;
-  --color-brand: #625df5;
+  --font-sans: "DM Sans", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --color-ink: #17212b;
+  --color-muted: #68757d;
+  --color-line: #ded8cc;
+  --color-brand: #d9684a;
 }
 
 :root {
-  font-family: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
-  color: #101828;
-  background: #f5f7fb;
+  font-family: "DM Sans", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  color: #17212b;
+  background: #e9e1d3;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
 
 * { box-sizing: border-box; }
-body { margin: 0; min-width: 320px; background: #f5f7fb; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #e9e1d3 url('/images/hero-paris-picnic.png') center / cover fixed;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(20, 34, 43, .36), rgba(233, 225, 211, .92) 46%, #e9e1d3 88%);
+}
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
 button, input, textarea, select { font: inherit; }
 button { -webkit-tap-highlight-color: transparent; }
+button, a { transition: transform .2s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid rgba(217,104,74,.45); outline-offset: 3px; }
 
-::selection { background: #625df5; color: white; }
+::selection { background: #d9684a; color: white; }
 
 .surface {
-  background: rgba(255,255,255,.92);
-  border: 1px solid rgba(228,231,236,.95);
-  box-shadow: 0 10px 30px rgba(16,24,40,.045), 0 2px 6px rgba(16,24,40,.03);
+  background: rgba(252, 249, 243, .94);
+  border: 1px solid rgba(255,255,255,.72);
+  box-shadow: 0 24px 60px rgba(40, 45, 44, .12), 0 3px 10px rgba(40, 45, 44, .07);
+  backdrop-filter: blur(14px);
 }
-
-.section-kicker { letter-spacing: .12em; font-size: 10px; text-transform: uppercase; font-weight: 800; color: #667085; }
+.surface:hover { box-shadow: 0 28px 70px rgba(40, 45, 44, .16), 0 4px 12px rgba(40, 45, 44, .08); }
+.section-kicker { letter-spacing: .16em; font-size: 10px; text-transform: uppercase; font-weight: 800; color: #a4553e; }
+.font-display { font-family: "Playfair Display", Georgia, serif; }
+.photo-button { background: #d9684a; color: #fffaf4; box-shadow: 0 8px 0 #a84e39, 0 14px 24px rgba(168,78,57,.18); }
+.photo-button:hover { transform: translateY(-2px); box-shadow: 0 10px 0 #a84e39, 0 18px 28px rgba(168,78,57,.24); }
+.photo-button:active { transform: translateY(4px); box-shadow: 0 4px 0 #a84e39, 0 8px 14px rgba(168,78,57,.18); }
 
 @media (max-width: 640px) {
-  .section-kicker { letter-spacing: .08em; }
+  .section-kicker { letter-spacing: .1em; }
+  body { background-attachment: scroll; }
+} 
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
