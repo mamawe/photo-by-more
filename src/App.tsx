@@ -388,7 +388,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f7fb] text-slate-900 flex flex-col font-sans pb-16">
+    <div className="min-h-screen text-slate-900 flex flex-col font-sans pb-16">
       {/* Header */}
       <Header
         onLoadPreset={handleLoadPreset}
@@ -397,7 +397,24 @@ export default function App() {
       />
 
       {/* Main Workspace Layout */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
+        <section className="surface photo-section rounded-[1.75rem] p-5 sm:p-7 overflow-hidden relative">
+          <div className="absolute -right-20 -top-24 h-64 w-64 rounded-full bg-[#d9684a]/10 blur-3xl" aria-hidden="true" />
+          <div className="relative flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="section-kicker mb-2">A portrait in place</p>
+              <h2 className="font-display text-3xl sm:text-4xl text-[#17212b]">把一群人，放进同一段风景。</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-[#68757d]">先锁定每个人的身份，再安排站位、光线与故事。像一次真正的旅行合影一样，慢慢构图。</p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs min-w-0 lg:min-w-[380px]">
+              <div className="rounded-xl bg-white/70 border border-[#ded8cc] p-3"><span className="block text-[#a4553e] font-bold text-lg">{characterAssets.length}</span><span className="text-[#68757d]">人物身份</span></div>
+              <div className="rounded-xl bg-white/70 border border-[#ded8cc] p-3"><span className="block text-[#a4553e] font-bold text-lg">{blueprint.characters.length}</span><span className="text-[#68757d]">画布角色</span></div>
+              <div className="rounded-xl bg-white/70 border border-[#ded8cc] p-3"><span className="block text-[#a4553e] font-bold text-lg">{blueprint.aspectRatio}</span><span className="text-[#68757d]">画幅比例</span></div>
+              <div className="rounded-xl bg-white/70 border border-[#ded8cc] p-3"><span className="block text-[#a4553e] font-bold text-lg">{generationResult ? '已完成' : '待拍摄'}</span><span className="text-[#68757d]">当前状态</span></div>
+            </div>
+          </div>
+        </section>
+
         {/* Step 1: Character Registry Cards */}
         <section id="character-registry-section">
           <CharacterUploader

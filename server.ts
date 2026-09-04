@@ -524,7 +524,39 @@ async function startServer() {
       },
       appType: "spa",
     });
-    app.use(vite.middlewares);
+    // This preview is fronted by an HTTPS proxy that does not expose the
+  // dev-server WebSocket. Vite may still serve @vite/client from a cached
+  // transform, so short-circuit it explicitly to prevent the client from
+  // attempting a socket connection in the hosted preview.
+  // Register this before Vite's middleware so the hosted preview never receives
+  // the real client, which attempts to open a WebSocket the proxy does not expose.
+  app.use("/@vite/client", (_req, res) => {
+    res.status(200).set("Cache-Control", "no-store").type("application/javascript; charset=utf-8").send(`
+      const noop = () => {};
+      const styles = new Map();
+      const hot = () => ({ accept: noop, dispose: noop, prune: noop, on: noop, send: noop, invalidate: noop });
+      export const createHotContext = hot;
+      export const updateStyle = (id, content) => {
+        let style = styles.get(id);
+        if (!style) {
+          style = document.createElement('style');
+          style.dataset.viteDevId = id;
+          document.head.appendChild(style);
+          styles.set(id, style);
+        }
+        style.textContent = content;
+      };
+      export const removeStyle = (id) => {
+        const style = styles.get(id);
+        if (style) { style.remove(); styles.delete(id); }
+      };
+      export const injectQuery = (url) => url;
+      export const defineImportMetaEnv = () => undefined;
+      export const defineImportMetaHot = () => undefined;
+      export default {};
+    `);
+  });
+  app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
