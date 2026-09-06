@@ -60,10 +60,17 @@ export interface SceneCharacter {
 
 export type AspectRatioType = '16:9' | '4:3' | '1:1' | '9:16';
 
+export interface SceneComposition {
+  focus: string;
+  recommendedArea: string;
+  framing: string;
+}
+
 export interface SceneBlueprint {
   version: string;
   title: string;
   aspectRatio: AspectRatioType;
+  composition?: SceneComposition;
   /** Local visual reference used by the 2D board and client composite renderer. */
   backgroundImage?: string;
   background: string;

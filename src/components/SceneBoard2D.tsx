@@ -156,8 +156,31 @@ export const SceneBoard2D: React.FC<SceneBoard2DProps> = ({
         </div>
       </div>
 
+      {blueprint.composition && (
+        <div className="mb-4 grid gap-3 rounded-xl border border-[#d8c5a8] bg-[#fffaf0]/90 p-3 sm:grid-cols-[1.1fr_1fr_1fr]">
+          <div className="flex gap-3 sm:col-span-3">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#213b3b] text-[#f5d59a]">
+              <Eye className="size-4" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#a45c43]">Visual direction</p>
+              <p className="mt-0.5 text-sm font-semibold text-[#213b3b]">{blueprint.composition.focus}</p>
+              <p className="mt-1 text-xs leading-5 text-[#68706d]">已根据底图留白自动安排人物；你仍可以直接拖动每个人调整镜头。</p>
+            </div>
+          </div>
+          <div className="rounded-lg border border-[#eadcc8] bg-white/70 p-3">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#a45c43]">Recommended area</p>
+            <p className="mt-1 text-xs leading-5 text-[#4b5b59]">{blueprint.composition.recommendedArea}</p>
+          </div>
+          <div className="rounded-lg border border-[#eadcc8] bg-white/70 p-3 sm:col-span-2">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#a45c43]">Framing note</p>
+            <p className="mt-1 text-xs leading-5 text-[#4b5b59]">{blueprint.composition.framing}</p>
+          </div>
+        </div>
+      )}
+
       {/* 2D Canvas Area */}
-      <div className="relative w-full bg-slate-950 rounded-xl overflow-hidden shadow-inner border border-slate-800">
+      <div className="relative w-full overflow-hidden rounded-xl border border-[#d7c6ad] bg-[#213b3b] p-1.5 shadow-[0_18px_45px_rgba(33,59,59,0.18)]">
         <div
           ref={containerRef}
           onPointerMove={handlePointerMove}
